@@ -23,7 +23,9 @@ app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
 
-mongoose.connect(config.mongoDB, {})
+const db = require('./config/keys').mongoURI;
+
+mongoose.connect(db, {})
     .then(() => {
         mongoStatus = "ok"
         console.log('connected')
