@@ -23,7 +23,7 @@ const mongoose = require("mongoose");
 const UserModel = require("./Models/userModel");
 
 
-mongoose.connect(config.mongoDB, { useNewUrlParser: true, useFindAndModify: false })
+mongoose.connect(config.mongoDB, {})
     .then(() => {
         console.log('connected')
         mongoStatus = "ok"
