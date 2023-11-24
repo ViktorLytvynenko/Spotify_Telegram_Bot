@@ -12,7 +12,7 @@ let telegramStatus = "false"
 
 const PORT = 4000
 
-app.get('/home', (req, res) => {
+app.get('/', (req, res) => {
     res.status(200).json({
         mongoStatus, telegramStatus
     });
