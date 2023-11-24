@@ -3,8 +3,13 @@ const http = require("http")
 
 const app = express()
 const server = http.createServer(app)
-
-app.get('/', (req,res) => res.status(200).json("All ok"))
+let mongoStatus = "false"
+let telegramStatus = "false"
+app.get('/', (req, res) => res.status(200).json(
+    {
+        mongoStatus, telegramStatus
+    }
+))
 
 const port = process.env.PORT || 4000;
 server.listen(port);
@@ -21,6 +26,7 @@ const UserModel = require("./Models/userModel");
 mongoose.connect(config.mongoDB)
     .then(() => {
         console.log('connected')
+        mongoStatus = "ok"
     })
     .catch((err) => {
         console.log(err)
@@ -119,6 +125,9 @@ const handleSearchValue = async (chatId, userID, msgText) => {
 }
 
 const bot = new telegramBot(config.TELEGRAM_TOKEN, {polling: true})
+if (bot) {
+    telegramStatus = "ok"
+}
 bot.setMyCommands([
     {command: '/start', description: 'Start bot'},
     {command: '/search', description: 'Open menu'}
