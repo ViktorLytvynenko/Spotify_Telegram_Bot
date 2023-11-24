@@ -19,15 +19,14 @@ app.get('/', (req, res) => {
     });
 })
 
-
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+});
 
 mongoose.connect(config.mongoDB, {})
     .then(() => {
         mongoStatus = "ok"
         console.log('connected')
-        app.listen(PORT, () => {
-            console.log(`Server running at http://localhost:${PORT}`);
-        });
     })
     .catch((err) => {
         mongoStatus = err
