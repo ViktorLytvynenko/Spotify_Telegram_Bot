@@ -147,36 +147,5 @@ bot.on("text", async (msg, match) => {
             handleStart(msg.chat.id, userCandidate.user_id)
         }
     }
-    const searchParams = `q=${msg.text}`
-
-    /*axios.get(`https://api.spotify.com/v1/search?${searchParams}`, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        }
-    }).then(res => {
-        bot.sendMessage(msg.chat.id, res.data.href)
-        console.log(res.data)
-    })
-        .catch(e => console.log(e))*/
 })
 
-// msg {
-//   message_id: 43,
-//   from: {
-//     id: 370942103,
-//     is_bot: false,
-//     first_name: 'Viktor',
-//     username: 'viktor_personal',
-//     language_code: 'ru'
-//   },
-//   chat: {
-//     id: 370942103,
-//     first_name: 'Viktor',
-//     username: 'viktor_personal',
-//     type: 'private'
-//   },
-//   date: 1700119111,
-//   text: '123'
-// }
-
-// match { type: 'text' }
