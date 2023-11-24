@@ -29,7 +29,7 @@ mongoose.connect(config.mongoDB)
         mongoStatus = "ok"
     })
     .catch((err) => {
-        console.log(err)
+        mongoStatus = err
     })
 
 let token = null
