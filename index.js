@@ -24,10 +24,9 @@ const UserModel = require("./Models/userModel");
 
 
 mongoose.connect(config.mongoDB, {})
-    .then(() => {
+    .then(() =>
         mongoStatus = "ok"
-        console.log('connected')
-    })
+    )
     .catch((err) => {
         mongoStatus = err
     })
