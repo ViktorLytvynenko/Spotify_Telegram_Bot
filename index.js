@@ -1,5 +1,11 @@
 const express = require('express')
 const app = express()
+const telegramBot = require('node-telegram-bot-api');
+const SpotifyWebApi = require('spotify-web-api-node');
+const axios = require('axios');
+const config = require('./config')
+const mongoose = require("mongoose");
+const UserModel = require("./Models/userModel");
 
 let mongoStatus = "false"
 let telegramStatus = "false"
@@ -15,13 +21,6 @@ app.get('/home', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
-
-const telegramBot = require('node-telegram-bot-api');
-const SpotifyWebApi = require('spotify-web-api-node');
-const axios = require('axios');
-const config = require('./config')
-const mongoose = require("mongoose");
-const UserModel = require("./Models/userModel");
 
 mongoose.connect(config.mongoDB, {})
     .then(() => {
