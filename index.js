@@ -21,15 +21,16 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
-
-mongoose.connect(config.mongoDB, {})
-    .then(() => {
-        mongoStatus = "ok"
-        console.log('connected')
-    })
-    .catch((err) => {
-        mongoStatus = err
-    })
+const start = () => {
+    mongoose.connect(config.mongoDB, {})
+        .then(() => {
+            mongoStatus = "ok"
+            console.log('connected')
+        })
+        .catch((err) => {
+            mongoStatus = err
+        })
+}
 
 let token = null
 
@@ -168,5 +169,6 @@ bot.on("text", async (msg, match) => {
         }
     }
 })
+start()
 
 module.exports = app
