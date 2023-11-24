@@ -1,3 +1,15 @@
+const express = require('express')
+const http = require("http")
+
+const app = express()
+const server = http.createServer(app)
+
+app.get('/', (req,res) => res.status(200).json("All ok"))
+
+const port = process.env.PORT || 4000;
+server.listen(port);
+
+
 const telegramBot = require('node-telegram-bot-api');
 const SpotifyWebApi = require('spotify-web-api-node');
 const axios = require('axios');
@@ -97,7 +109,7 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                 res.data.artists.items.forEach((artistItem, index) => {
                     list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
                 })
-                bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode : "HTML"})
+                bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode: "HTML"})
             })
     } catch (e) {
         console.log(e)
