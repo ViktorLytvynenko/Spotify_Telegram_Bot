@@ -115,7 +115,7 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                 let list = ""
                 switch (user.type_search) {
                     case 'artist':
-                        if(res.data.artists.items.length > 0) {
+                        if (res.data.artists.items.length > 0) {
                             res.data.artists.items.forEach((artistItem, index) => {
                                 list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
                             })
@@ -125,20 +125,28 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                         }
                         break
                     case 'track':
-                        res.data.tracks.items.forEach((track) => {
-                            track.artists.forEach(artist => {
-                                list += `<i>${artist.name} - ${counter(track.duration_ms)}</i>\n <a href="https://open.spotify.com/artist/${track.id}">${track.name}</a>\n \n`
+                        if (res.data.tracks.items.length > 0) {
+                            res.data.tracks.items.forEach((track) => {
+                                track.artists.forEach(artist => {
+                                    list += `<i>${artist.name} - ${counter(track.duration_ms)}</i>\n <a href="https://open.spotify.com/track/${track.id}">${track.name}</a>\n \n`
+                                })
                             })
-                        })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
+                            bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
+                        } else {
+                            bot.sendMessage(chatId, `<b>No results</b>`, {parse_mode: "HTML"})
+                        }
                         break
                     case 'album':
-                        res.data.albums.items.forEach((album) => {
-                            album.artists.forEach(artist => {
-                                list += `<i>${artist.name}</i> - <a href="https://open.spotify.com/artist/${album.id}">${album.name}</a> \n`
+                        if (res.data.albums.items.length > 0) {
+                            res.data.albums.items.forEach((album) => {
+                                album.artists.forEach(artist => {
+                                    list += `<i>${artist.name}</i> - <a href="https://open.spotify.com/album/${album.id}">${album.name}</a> \n`
+                                })
                             })
-                        })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
+                            bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
+                        } else {
+                            bot.sendMessage(chatId, `<b>No results</b>`, {parse_mode: "HTML"})
+                        }
                         break
                     default:
                         return null
