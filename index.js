@@ -70,7 +70,7 @@ const handleStart = async (chatId, userID) => {
 const handleSearch = async (chatId, userID, msgText) => {
     bot.sendMessage(chatId, "Please write a request")
     try {
-        let typeSearch = null
+        let typeSearch
         switch (msgText) {
             case "Search album":
                 typeSearch = 'album'
@@ -192,10 +192,6 @@ bot.on("text", async (msg) => {
 
             case "searchValue":
                 handleSearchValue(msg.chat.id, userCandidate.user_id, msg.text)
-                break
-
-            case "searchResult":
-                handleSearchResult()
                 break
         }
         if (msg.text === "/search") {
