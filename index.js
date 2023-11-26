@@ -119,19 +119,21 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                         res.data.artists.items.forEach((artistItem, index) => {
                             list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
                         })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode: "HTML"})
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
                         break
                     case 'track':
                         res.data.tracks.items.forEach((track) => {
-                            console.log(track)
                             track.artists.forEach(artist => {
                                 list += `<i>${artist.name} - ${counter(track.duration_ms)}</i>\n <a href="https://open.spotify.com/artist/${track.id}">${track.name}</a>\n \n`
                             })
                         })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode: "HTML"})
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
                         break
                     case 'album':
-                        console.log('456')
+                        res.data.albums.items.forEach((artistItem, index) => {
+                            list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
+                        })
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
                         break
                     default:
                         return null
