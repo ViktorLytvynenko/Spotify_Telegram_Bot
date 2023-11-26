@@ -112,7 +112,6 @@ const handleSearchValue = async (chatId, userID, msgText) => {
             }
         })
             .then(res => {
-                console.log(res.data)
                 let list = ""
                 switch (user.type_search) {
                     case 'artist':
@@ -130,9 +129,10 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                         bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
                         break
                     case 'album':
-                        res.data.albums.items.forEach((album, index) => {
-                            console.log(album)
-                            list += `${index + 1} - <a href="https://open.spotify.com/artist/${album.id}">${album.name}</a> \n`
+                        res.data.albums.items.forEach((album) => {
+                            album.artists.forEach(artist => {
+                                list += `<i>${artist.name}</i> - <a href="https://open.spotify.com/artist/${album.id}">${album.name}</a> \n`
+                            })
                         })
                         bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
                         break
