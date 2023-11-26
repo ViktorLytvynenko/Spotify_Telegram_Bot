@@ -115,10 +115,14 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                 let list = ""
                 switch (user.type_search) {
                     case 'artist':
-                        res.data.artists.items.forEach((artistItem, index) => {
-                            list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
-                        })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
+                        if(res.data.artists.items.length > 0) {
+                            res.data.artists.items.forEach((artistItem, index) => {
+                                list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
+                            })
+                            bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
+                        } else {
+                            bot.sendMessage(chatId, `<b>No results</b>`, {parse_mode: "HTML"})
+                        }
                         break
                     case 'track':
                         res.data.tracks.items.forEach((track) => {
@@ -126,7 +130,7 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                                 list += `<i>${artist.name} - ${counter(track.duration_ms)}</i>\n <a href="https://open.spotify.com/artist/${track.id}">${track.name}</a>\n \n`
                             })
                         })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
                         break
                     case 'album':
                         res.data.albums.items.forEach((album) => {
@@ -134,7 +138,7 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                                 list += `<i>${artist.name}</i> - <a href="https://open.spotify.com/artist/${album.id}">${album.name}</a> \n`
                             })
                         })
-                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n \n`, {parse_mode: "HTML"})
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
                         break
                     default:
                         return null
