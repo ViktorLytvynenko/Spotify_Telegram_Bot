@@ -1,11 +1,11 @@
 const express = require('express')
 const app = express()
 const telegramBot = require('node-telegram-bot-api');
-const SpotifyWebApi = require('spotify-web-api-node');
 const axios = require('axios');
 const config = require('./config')
 const mongoose = require("mongoose");
 const UserModel = require("./Models/userModel");
+const {counter} = require("./assets/counter");
 
 let mongoStatus = "false"
 let telegramStatus = "false"
@@ -106,18 +106,36 @@ const handleSearchValue = async (chatId, userID, msgText) => {
             }
         )
 
-        axios(`${config.requestURL}?q=${msgText}&type=${user.type_search}`, {
+        axios(`${config.requestURL}?q=${msgText}&type=${user.type_search}&limit=50`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
         })
             .then(res => {
-                console.log(res.data.artists.items)
+                console.log(res.data)
                 let list = ""
-                res.data.artists.items.forEach((artistItem, index) => {
-                    list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
-                })
-                bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode: "HTML"})
+                switch (user.type_search) {
+                    case 'artist':
+                        res.data.artists.items.forEach((artistItem, index) => {
+                            list += `${index + 1} - <a href="https://open.spotify.com/artist/${artistItem.id}">${artistItem.name}</a> \n`
+                        })
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode: "HTML"})
+                        break
+                    case 'track':
+                        res.data.tracks.items.forEach((track) => {
+                            console.log(track)
+                            track.artists.forEach(artist => {
+                                list += `<i>${artist.name} - ${counter(track.duration_ms)}</i>\n <a href="https://open.spotify.com/artist/${track.id}">${track.name}</a>\n \n`
+                            })
+                        })
+                        bot.sendMessage(chatId, `<b>Here are your results</b>\n ${list}\n`, {parse_mode: "HTML"})
+                        break
+                    case 'album':
+                        console.log('456')
+                        break
+                    default:
+                        return null
+                }
             })
     } catch (e) {
         console.log(e)
@@ -134,8 +152,7 @@ bot.setMyCommands([
     {command: '/start', description: 'Start bot'},
     {command: '/search', description: 'Open menu'}
 ])
-bot.on("text", async (msg, match) => {
-    //bot.sendMessage(msg.chat.id, "Welcome to the music box")
+bot.on("text", async (msg) => {
     const userCandidate = await UserModel.findOne({user_id: msg.from.id})
     if (!userCandidate) {
         const newUser = new UserModel({
@@ -166,7 +183,7 @@ bot.on("text", async (msg, match) => {
                 handleSearchResult()
                 break
         }
-        if (msg.text == "/search") {
+        if (msg.text === "/search") {
             handleStart(msg.chat.id, userCandidate.user_id)
         }
     }
