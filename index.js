@@ -57,7 +57,7 @@ getTokenApi()
 const handleStart = async (chatId, userID) => {
     bot.sendMessage(chatId, "Welcome to the music box - spotify search platform", {
         "reply_markup": {
-            "keyboard": [["Search album", "Search artist"], ["Search track"]]
+            "keyboard": [["Search album", "Search artist"], ["Search track", "Search something"]]
         }
     });
     try {
@@ -76,7 +76,7 @@ const setSearchStatus = (msgText) => {
         case "Search track":
             return 'track'
         default:
-            return null
+            return 'track%2Cartist%2Calbum'
     }
 }
 
@@ -151,7 +151,17 @@ const handleSearchValue = async (chatId, userID, msgText) => {
                             }
                             break
                         default:
-                            return null
+                            console.log(res.data)
+                            if (res.data.tracks.items.length > 0 || res.data.artists.items.length > 0 || res.data.albums.items.length > 0) {
+                                res.data.albums.items.forEach((album) => {
+                                    album.artists.forEach(artist => {
+                                        list += `<i>${artist.name}</i> - <a href="https://open.spotify.com/album/${album.id}">${album.name}</a> \n`
+                                    })
+                                })
+                                bot.sendMessage(chatId, `<b>Here are your results</b>\n \n ${list}\n`, {parse_mode: "HTML"})
+                            } else {
+                                bot.sendMessage(chatId, `<b>No results</b>`, {parse_mode: "HTML"})
+                            }
                     }
                 })
         } catch (e) {
