@@ -175,10 +175,12 @@ const bot = new telegramBot(config.TELEGRAM_TOKEN, {polling: true})
 if (bot) {
     telegramStatus = "ok"
 }
+
 bot.setMyCommands([
     {command: '/start', description: 'Start bot'},
     {command: '/search', description: 'Open menu'}
 ])
+
 bot.on("text", async (msg) => {
     const userCandidate = await UserModel.findOne({user_id: msg.from.id})
     if (!userCandidate) {
