@@ -25,16 +25,7 @@ app.listen(PORT, () => {
 
 const db = require('./config/keys').mongoURI;
 
-const dbOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    autoReconnect: true,
-    reconnectTries: Number.MAX_VALUE,
-    poolSize: 10,
-    keepAlive: true
-};
-
-mongoose.connect(db, dbOptions)
+mongoose.connect(db, {})
     .then(() => {
         mongoStatus = "ok"
         console.log('connected')
