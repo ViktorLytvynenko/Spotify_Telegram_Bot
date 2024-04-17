@@ -1,11 +1,14 @@
-const express = require('express')
+import express from 'express';
+import telegramBot from 'node-telegram-bot-api';
+import axios from 'axios';
+import * as config from './config.js';
+import mongoose from 'mongoose';
+import UserModel from './Models/userModel.js';
+import { counter } from './assets/counter.js';
+import keys from './config/keys.js';
+
 const app = express()
-const telegramBot = require('node-telegram-bot-api');
-const axios = require('axios');
-const config = require('./config')
-const mongoose = require("mongoose");
-const UserModel = require("./Models/userModel");
-const {counter} = require("./assets/counter");
+const db = keys.mongoURI;
 
 let mongoStatus = "false"
 let telegramStatus = "false"
@@ -23,7 +26,9 @@ app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
 
-const db = require('./config/keys').mongoURI;
+
+
+
 
 mongoose.connect(db, {})
     .then(() => {
@@ -216,4 +221,4 @@ bot.on("text", async (msg) => {
     }
 })
 
-module.exports = app
+export default app

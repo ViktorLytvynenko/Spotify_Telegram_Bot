@@ -1,32 +1,32 @@
-const {Schema, model} = require("mongoose");
+import { Schema, model } from "mongoose";
 
 const UserModel = new Schema({
     user_id: {
         type: String,
-        require: true
+        required: true
     },
     chat_id: {
         type: String,
-        require: true
+        required: true
     },
-    last_message:{
+    last_message: {
         id: {
             type: String,
-            require: true
+            required: true
         },
         text: {
             type: String,
-            require: true
+            required: true
         }
     },
     status: {
         type: String,
-        require: true
+        required: true
     },
     type_search: {
         type: String,
-        require: true
+        required: true
     }
-})
+});
 
-module.exports = model("users", UserModel)
+export default model("users", UserModel);
