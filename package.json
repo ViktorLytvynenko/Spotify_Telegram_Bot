@@ -2,13 +2,13 @@
   "name": "spotifyapi",
   "version": "1.0.0",
   "engines": {
-    "node": "20.9.0"
+    "node": "@now/node"
   },
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "npm start index.js",
+    "server": "node index.js",
     "dev": "nodemon index.js"
   },
   "author": "",
