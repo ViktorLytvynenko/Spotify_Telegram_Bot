@@ -38,22 +38,16 @@ mongoose.connect(db, {})
 let token = null
 
 const getTokenApi = async () => {
-    const data = new URLSearchParams();
-    data.append('grant_type', 'client_credentials');
-    data.append('client_id', config.client_id);
-    data.append('client_secret', config.client_secret);
-
-    try {
-        const response = await axios.post('https://accounts.spotify.com/api/token', data, {
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        });
-        return response.data;
-    } catch (error) {
-        console.error('Error while getting token:', error);
-        throw error;
-    }
+    const {data} = await axios.post('https://accounts.spotify.com/api/token', {
+        grant_type: 'client_credentials',
+        client_id: config.client_id,
+        client_secret: config.client_secret
+    }, {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    })
+    return data
 }
 
 getTokenApi()
