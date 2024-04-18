@@ -52,7 +52,7 @@ const getTokenApi = async () => {
         return response.data;
     } catch (error) {
         console.error('Error while getting token:', error);
-        throw error; // пробросить ошибку для обработки на уровне вызова
+        throw error;
     }
 }
 
