@@ -26,10 +26,6 @@ app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
 
-
-
-
-
 mongoose.connect(db, {})
     .then(() => {
         mongoStatus = "ok"

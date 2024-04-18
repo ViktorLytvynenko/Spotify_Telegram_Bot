@@ -25,7 +25,7 @@ const UserModel = new Schema({
     },
     type_search: {
         type: String,
-        required: true
+        required: false
     }
 });
 
